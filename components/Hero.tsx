@@ -69,7 +69,14 @@ const Hero = () => {
           </div>
           
           <div className="lg:w-1/2 relative">
-            <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+              <div className="absolute top-6 left-6 right-6 flex justify-between items-start">
+                <div className="bg-gradient-to-r from-[#0f1c3a]/85 to-[#1c2f55]/85 text-white px-5 py-3 rounded-2xl shadow-2xl max-w-xl border border-white/10">
+                  <p className="text-xs uppercase tracking-wide text-white/70 font-semibold">Standart kagitlar ise yaradi mi?</p>
+                  <h3 className="text-2xl lg:text-3xl font-extrabold leading-tight">Gercekten ise yaradi mi?</h3>
+                  <p className="mt-2 text-sm text-white/85">Kagidin sizin anatomik ihtiyacinizi okuyup okuyamadigini gelin birlikte sorgulayalim.</p>
+                </div>
+              </div>
               <img 
                 src={exerciseCards}
                 alt="Standart egzersiz kagitlari" 
