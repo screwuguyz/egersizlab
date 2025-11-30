@@ -1,26 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { Award, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const facts = [
-  "Gune 5 dakikalik boyun mobilizasyonu ile baslamak migren ataklarini dusurebilir.",
-  "Bel agrisinda her 30 dakikada 2 dakikalik yuruyus gerginligi belirgin azaltir.",
-  "60 saniye uzak noktaya bakmak ekran yorgunlugunu ve bas agrisini azaltir.",
-  "Denge egzersizleri diz cerrahisi sonrasi guvenli hareket kapasitesini arttirir.",
-  "Gunes isigina kisa sureli maruziyet serotonin duzeyini destekleyerek gun ici enerjiyi iyilestirir.",
+const exerciseCards = new URL('../exercise-cards.jpg.png', import.meta.url).href;
+
+const sliderItems = [
+  `Hastanelerde adeta bir brosur gibi dagitilan bu standart egzersiz receteleri, hastayi gercekten tedavi etmek icin mi, yoksa "bir seyler onermis olmak" icin mi veriliyor?
+
+Ayni kagidin, 20 yasindaki bir sporcunun on capraz bag sakatligina da, 70 yasindaki bir teyzenin ileri derece kireclenmesine de (osteoartrit) sifa olmasi beklenebilir mi?
+
+Elinize tutusturulan o kagit, sizin agri esiginizi, kas dengesizliginizi veya hareket kisitliliginizi "okuyabiliyor" mu?`,
+  `Anatomimiz parmak izimiz kadar benzersizken, tedavimiz nasil bir fotokopi makinesinden cikabilir?
+
+Herkesin kemik yapisi, eklem acisi, gecmisteki yaralanmalari ve yasam tarzi birbirinden tamamen farkliyken; hepsini ayni hareketlerle iyilestirmeye calismak, farkli kilitleri ayni anahtarla acmaya calismak degil midir?
+
+Bir baskasina iyi gelen "bacak kaldirma" hareketi, sizin ozel durumunuzda dizinize daha fazla yuk bindirip sorunu buyutuyorsa, o kagidin sorumlulugunu kim alacak?`,
+  `Gercek fizik tedavi; kagittan hareket bakmak degil, size ozel dikilmis bir elbise gibi tasarlanan, surec icinde degistirilen dinamik bir programdir.
+
+Egzersiz ilactir; dozaji, sikligi ve turu kisiye gore ayarlanmadiginda zehire donusebilir.
+
+Planiniz, semptomlariniza ve anatomik ihtiyaciniza gore yasayan bir recete olmali.`
 ];
 
 const Hero = () => {
-  const [activeFact, setActiveFact] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
     const id = setInterval(() => {
-      setActiveFact((prev) => (prev + 1) % facts.length);
-    }, 5000);
+      setActiveSlide((prev) => (prev + 1) % sliderItems.length);
+    }, 30000);
     return () => clearInterval(id);
   }, []);
 
-  const goPrev = () => setActiveFact((prev) => (prev - 1 + facts.length) % facts.length);
-  const goNext = () => setActiveFact((prev) => (prev + 1) % facts.length);
+  const goPrev = () => setActiveSlide((prev) => (prev - 1 + sliderItems.length) % sliderItems.length);
+  const goNext = () => setActiveSlide((prev) => (prev + 1) % sliderItems.length);
 
   return (
     <section className="relative bg-gradient-to-br from-[#eff6ff] to-[#f0fdfa] py-16 lg:py-24 overflow-hidden">
@@ -31,15 +43,15 @@ const Hero = () => {
         <div className="flex flex-col lg:flex-row items-center gap-12">
           <div className="lg:w-1/2 space-y-6">
             <h1 className="text-4xl lg:text-6xl font-extrabold text-slate-900 leading-tight">
-              Senin Vücudun, Bizim Bilimimiz: <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-500">Hareketin Yeni Formülü.</span>
+              Senin Vucudun, Bizim Bilimimiz: <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-500">Hareketin Yeni Formulu.</span>
             </h1>
             <p className="text-lg text-gray-600 leading-relaxed max-w-lg">
-              Egzersiz ve rehabilitasyonun birleştiği modern sağlık platformu. Sağlığın için dilediğin yerde, dilediğin zamanda harekete geç.
+              Egzersiz ve rehabilitasyonun birlestigi modern saglik platformu. Sagligin icin diledigin yerde, diledigin zamanda harekete gec.
             </p>
             <div className="flex gap-4 pt-4">
               <button className="bg-[#263562] hover:bg-[#1e2a4f] text-white px-8 py-3.5 rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                Kursları Keşfet
+                Kurslari Kesfet
               </button>
               <button className="bg-white hover:bg-gray-50 text-[#263562] border border-gray-200 px-8 py-3.5 rounded-lg font-semibold transition-all shadow-sm hover:shadow-md">
                 Daha Fazla Bilgi
@@ -52,54 +64,63 @@ const Hero = () => {
                 <img className="w-8 h-8 rounded-full border-2 border-white" src="https://picsum.photos/32/32?random=11" alt="User" />
                 <img className="w-8 h-8 rounded-full border-2 border-white" src="https://picsum.photos/32/32?random=12" alt="User" />
               </div>
-              <p><span className="text-blue-600 font-bold">+10k</span> Öğrenci bize güveniyor</p>
+              <p><span className="text-blue-600 font-bold">+10k</span> ogrenci bize guveniyor</p>
             </div>
           </div>
           
           <div className="lg:w-1/2 relative">
-            <div className="relative rounded-3xl bg-gradient-to-br from-[#0f1c3a] via-[#0f1c3a] to-[#152c58] text-white shadow-2xl p-8 lg:p-10 border border-white/10">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl lg:text-3xl font-extrabold">
-                  <span className="text-white">Bunlari </span>
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-300">
-                    biliyor muydunuz?
-                  </span>
+            <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+              <img 
+                src={exerciseCards}
+                alt="Standart egzersiz kagitlari" 
+                className="w-full h-auto object-cover"
+              />
+            </div>
+            <div className="mt-6 rounded-2xl bg-gradient-to-br from-[#0f1c3a] via-[#0f1c3a] to-[#152c58] text-white shadow-xl p-5 lg:p-6 border border-white/10">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-lg lg:text-xl font-extrabold text-white">
+                  Neden kisiye ozel egzersiz?
                 </h3>
                 <div className="flex gap-2">
                   <button
-                    aria-label="Önceki bilgi"
+                    aria-label="Onceki"
                     onClick={goPrev}
-                    className="h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center transition"
+                    className="h-9 w-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white transition"
                   >
-                    <ChevronLeft size={18} />
+                    <ChevronLeft size={16} />
                   </button>
                   <button
-                    aria-label="Sonraki bilgi"
+                    aria-label="Sonraki"
                     onClick={goNext}
-                    className="h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center transition"
+                    className="h-9 w-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white transition"
                   >
-                    <ChevronRight size={18} />
+                    <ChevronRight size={16} />
                   </button>
                 </div>
               </div>
-              <div className="min-h-[180px] flex items-center">
-                <p className="text-lg lg:text-xl leading-relaxed text-white/90 transition-all duration-500">
-                  {facts[activeFact]}
-                </p>
+              <div className="text-sm lg:text-base text-white/90 leading-relaxed min-h-[120px] transition-all duration-300 space-y-3">
+                {sliderItems[activeSlide]
+                  .split('\n')
+                  .filter(Boolean)
+                  .map((line, idx) => (
+                    <p
+                      key={idx}
+                      className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 shadow-sm"
+                    >
+                      {line.trim()}
+                    </p>
+                  ))}
               </div>
-              <div className="mt-6 flex items-center gap-2">
-                {facts.map((_, idx) => (
+              <div className="mt-4 flex items-center gap-2">
+                {sliderItems.map((_, idx) => (
                   <button
                     key={idx}
-                    aria-label={`Fact ${idx + 1}`}
-                    onClick={() => setActiveFact(idx)}
-                    className={`h-2 rounded-full transition-all duration-300 ${activeFact === idx ? "w-6 bg-emerald-400" : "w-2 bg-white/40"}`}
+                    aria-label={`Slayt ${idx + 1}`}
+                    onClick={() => setActiveSlide(idx)}
+                    className={`h-2 rounded-full transition-all duration-300 ${activeSlide === idx ? "w-6 bg-emerald-400" : "w-2 bg-white/50"}`}
                   />
                 ))}
               </div>
-              <button className="mt-8 w-full bg-white text-[#0f1c3a] font-semibold py-3 rounded-lg hover:bg-blue-50 transition">
-                Daha fazla kisa bilgi
-              </button>
             </div>
             <div className="absolute -top-6 -right-6 w-24 h-24 bg-yellow-400 rounded-full opacity-20 blur-xl"></div>
             <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-blue-600 rounded-full opacity-20 blur-xl"></div>

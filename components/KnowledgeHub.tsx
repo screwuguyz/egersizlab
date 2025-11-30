@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const featurePosts = [
   {
@@ -32,9 +33,22 @@ const quickFacts = [
   "Bel agrisinda her 30 dakikada 2 dakikalik yuruyus, gerginligi belirgin azaltir.",
   "60 saniye uzak noktaya bakmak ekran yorgunlugunu ve bas agrisini azaltir.",
   "Denge egzersizleri diz cerrahisi sonrasi guvenli hareket kapasitesini arttirir.",
+  "Gunes isigina kisa sureli maruziyet serotonin duzeyini destekleyerek gun ici enerjiyi iyilestirir.",
 ];
 
 const KnowledgeHub = () => {
+  const [activeFact, setActiveFact] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setActiveFact((prev) => (prev + 1) % quickFacts.length);
+    }, 5000);
+    return () => clearInterval(id);
+  }, []);
+
+  const goPrev = () => setActiveFact((prev) => (prev - 1 + quickFacts.length) % quickFacts.length);
+  const goNext = () => setActiveFact((prev) => (prev + 1) % quickFacts.length);
+
   return (
     <section className="py-16 bg-white" id="knowledge">
       <div className="container mx-auto px-4">
@@ -85,21 +99,47 @@ const KnowledgeHub = () => {
           </div>
 
           <div className="p-6 rounded-2xl border border-gray-100 bg-slate-900 text-white shadow-lg">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold">Bunlari biliyor muydunuz?</h3>
-              <span className="text-xs text-white/70">Kisa notlar</span>
+            <div className="relative rounded-2xl bg-gradient-to-br from-[#0f1c3a] via-[#0f1c3a] to-[#152c58] text-white shadow-lg p-6 border border-white/10">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-extrabold">
+                  Bunlari <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-300">biliyor muydunuz?</span>
+                </h3>
+                <div className="flex gap-2">
+                  <button
+                    aria-label="Önceki bilgi"
+                    onClick={goPrev}
+                    className="h-9 w-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center transition"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+                  <button
+                    aria-label="Sonraki bilgi"
+                    onClick={goNext}
+                    className="h-9 w-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center transition"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
+              </div>
+              <div className="min-h-[140px] flex items-center">
+                <p className="text-base lg:text-lg leading-relaxed text-white/90 transition-all duration-500">
+                  {quickFacts[activeFact]}
+                </p>
+              </div>
+              <div className="mt-6 flex items-center gap-2">
+                {quickFacts.map((_, idx) => (
+                  <button
+                    key={idx}
+                    aria-label={`Not ${idx + 1}`}
+                    onClick={() => setActiveFact(idx)}
+                    className={`h-2 rounded-full transition-all duration-300 ${activeFact === idx ? "w-6 bg-emerald-400" : "w-2 bg-white/40"}`}
+                  />
+                ))}
+              </div>
+              <button className="mt-8 w-full bg-white text-[#0f1c3a] font-semibold py-3 rounded-lg hover:bg-blue-50 transition">
+                Daha fazla kisa bilgi
+              </button>
             </div>
-            <ul className="space-y-4">
-              {quickFacts.map((fact, idx) => (
-                <li key={idx} className="flex items-start gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-emerald-400"></span>
-                  <p className="text-sm leading-relaxed text-white/90">{fact}</p>
-                </li>
-              ))}
-            </ul>
-            <button className="mt-6 w-full bg-white text-slate-900 font-semibold py-3 rounded-lg hover:bg-blue-50 transition">
-              Daha fazla kisa bilgi
-            </button>
           </div>
         </div>
       </div>

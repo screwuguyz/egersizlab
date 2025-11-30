@@ -29,7 +29,8 @@ const Header: React.FC = () => {
             <img
               src="/logo.png"
               alt="EgzersizLab Logo"
-              className="h-40 w-auto object-contain"
+              className="w-auto object-contain"
+              style={{ height: '6.25rem' }} // h-25 approx
             />
             <span className="text-4xl font-bold text-[#263562]">EgzersizLab</span>
           </div>
