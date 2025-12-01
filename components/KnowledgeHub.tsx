@@ -1,144 +1,94 @@
-import React, { useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
 
-const featurePosts = [
+const steps = [
   {
-    title: "Omuz impingement: 3 adimlik rahatlama rehberi",
-    desc: "Hastalar icin hizli anlasilabilir hareket ve nefes kombinasyonlari.",
-    type: "Makale",
-    time: "3 dk okuma",
-    badge: "Guncel",
-    color: "from-blue-50 to-cyan-50",
+    id: 1,
+    title: "Kayıt Ol",
+    desc: "Hesap oluştur ve sisteme giriş yap.",
+    detail: "İlk adımda güvenli bir hesap açarak kişisel paneline erişirsin. Hesabınla birlikte ilerlemelerin ve kayıtların seninle kalır.",
+    icon: "📝",
   },
   {
-    title: "Bel agrisi icin 10 dakikalik core rutini",
-    desc: "Evde uygulanan, ekipmansiz ve yaygin hatalardan arindirilmis mini seans.",
-    type: "Video",
-    time: "7 dk izleme",
-    badge: "Video",
-    color: "from-emerald-50 to-teal-50",
+    id: 2,
+    title: "Bilgileri Gir",
+    desc: "Gerekli verileri sisteme gir.",
+    detail: "Formları doldur, gerekli dokümanları ekle ve bize ihtiyaçlarını anlat. Sistem, eksiklerini adım adım bildirir.",
+    icon: "⚙️",
   },
   {
-    title: "Migren tetikleyicileri: durus ve ekran suresi",
-    desc: "Durus, nefes ve isik yonetimi ile atak azaltmaya yonelik kisa rehber.",
-    type: "Biliyor muydunuz?",
-    time: "2 dk okuma",
-    badge: "Kisa bilgi",
-    color: "from-amber-50 to-orange-50",
+    id: 3,
+    title: "Sonuçları Al",
+    desc: "Sistem analiz eder ve sonuçları gösterir.",
+    detail: "Girilen bilgilere göre sana özel çıktılar, raporlar ve öneriler oluşur. Sonuçları kaydedebilir veya paylaşabilirsin.",
+    icon: "✅",
   },
-];
-
-const quickFacts = [
-  "Gune 5 dakikalik boyun mobilizasyonu ile baslamak migren ataklarini dusurebilir.",
-  "Bel agrisinda her 30 dakikada 2 dakikalik yuruyus, gerginligi belirgin azaltir.",
-  "60 saniye uzak noktaya bakmak ekran yorgunlugunu ve bas agrisini azaltir.",
-  "Denge egzersizleri diz cerrahisi sonrasi guvenli hareket kapasitesini arttirir.",
-  "Gunes isigina kisa sureli maruziyet serotonin duzeyini destekleyerek gun ici enerjiyi iyilestirir.",
 ];
 
 const KnowledgeHub = () => {
-  const [activeFact, setActiveFact] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setActiveFact((prev) => (prev + 1) % quickFacts.length);
-    }, 5000);
-    return () => clearInterval(id);
-  }, []);
-
-  const goPrev = () => setActiveFact((prev) => (prev - 1 + quickFacts.length) % quickFacts.length);
-  const goNext = () => setActiveFact((prev) => (prev + 1) % quickFacts.length);
+  const [activeStep, setActiveStep] = useState<number>(1);
+  const activeData = steps.find((s) => s.id === activeStep) ?? steps[0];
 
   return (
-    <section className="py-16 bg-white" id="knowledge">
+    <section
+      id="process"
+      className="py-16"
+      style={{ scrollMarginTop: '140px' }}
+    >
       <div className="container mx-auto px-4">
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-10">
-          <div>
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">
-              Bilgi Merkezi
-            </span>
-            <h2 className="text-3xl font-bold text-slate-900 mt-3">Guncel icerikler ve kisa bilgiler</h2>
-            <p className="text-gray-600 mt-2 max-w-xl">
-              Hastalar icin pratik okunabilir rehberler, videolar ve “biliyor muydunuz?” notlari. Klinisyen icin hizli paylasilabilir formatta.
-            </p>
-          </div>
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-900 transition"
-          >
-            Tum icerikleri gor
-            <span aria-hidden>→</span>
-          </a>
-        </div>
-
-        <div className="grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 grid sm:grid-cols-2 gap-6">
-            {featurePosts.map((item, idx) => (
-              <article
-                key={idx}
-                className={`p-6 rounded-2xl border border-gray-100 bg-gradient-to-br ${item.color} shadow-sm hover:shadow-md transition`}
-              >
-                <div className="flex items-center justify-between text-xs font-semibold text-gray-600 mb-3">
-                  <span className="px-2 py-1 rounded-full bg-white/70 border border-white text-gray-800">
-                    {item.badge}
-                  </span>
-                  <span className="text-gray-500">{item.time}</span>
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 leading-snug">{item.title}</h3>
-                <p className="mt-2 text-sm text-gray-700 leading-relaxed">{item.desc}</p>
-                <div className="mt-4 flex items-center gap-3 text-sm text-blue-700 font-semibold">
-                  <span className="px-3 py-1 rounded-full bg-white border border-blue-100">
-                    {item.type}
-                  </span>
-                  <button className="text-blue-700 hover:text-blue-900 transition">
-                    Incele
-                  </button>
-                </div>
-              </article>
-            ))}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#dbeafe] via-[#e9ecff] to-[#e0f5ff] border border-white shadow-xl">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute -top-20 -left-10 w-56 h-56 bg-blue-200/40 rounded-full blur-3xl" />
+            <div className="absolute -bottom-24 -right-6 w-64 h-64 bg-indigo-200/40 rounded-full blur-3xl" />
           </div>
 
-          <div className="p-6 rounded-2xl border border-gray-100 bg-slate-900 text-white shadow-lg">
-            <div className="relative rounded-2xl bg-gradient-to-br from-[#0f1c3a] via-[#0f1c3a] to-[#152c58] text-white shadow-lg p-6 border border-white/10">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-extrabold">
-                  Bunlari <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-300">biliyor muydunuz?</span>
-                </h3>
-                <div className="flex gap-2">
+          <div className="relative p-6 md:p-10 lg:p-12">
+            <div className="text-center max-w-3xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Sistem Nasıl İşliyor?</h2>
+              <p className="mt-3 text-base md:text-lg text-slate-600">
+                Adımları keşfetmek için tıkla; her adımda ne yapman gerektiğini ve sistemin senin için ne üreteceğini gör.
+              </p>
+            </div>
+
+            <div className="mt-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 lg:gap-8">
+              {steps.map((step, idx) => (
+                <React.Fragment key={step.id}>
                   <button
-                    aria-label="Önceki bilgi"
-                    onClick={goPrev}
-                    className="h-9 w-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center transition"
+                    onClick={() => setActiveStep(step.id)}
+                    className={`group text-left relative w-full max-w-[320px] bg-white/90 backdrop-blur border rounded-2xl px-6 py-8 shadow-md transition transform ${
+                      activeStep === step.id
+                        ? "border-blue-200 shadow-blue-200/60 -translate-y-1 ring-2 ring-blue-300"
+                        : "hover:-translate-y-1 hover:shadow-lg border-gray-100"
+                    }`}
                   >
-                    <ChevronLeft size={16} />
+                    <div className="flex items-center justify-center">
+                      <div className={`w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold text-white shadow-lg ${
+                        activeStep === step.id
+                          ? "bg-gradient-to-br from-blue-600 to-teal-500"
+                          : "bg-gradient-to-br from-slate-400 to-slate-500"
+                      }`}>
+                        {step.id}
+                      </div>
+                    </div>
+                    <div className="text-5xl text-center mt-4">{step.icon}</div>
+                    <h3 className="mt-4 text-xl font-semibold text-slate-900 text-center">{step.title}</h3>
+                    <p className="mt-2 text-sm text-slate-600 text-center leading-relaxed">{step.desc}</p>
                   </button>
-                  <button
-                    aria-label="Sonraki bilgi"
-                    onClick={goNext}
-                    className="h-9 w-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center transition"
-                  >
-                    <ChevronRight size={16} />
-                  </button>
-                </div>
-              </div>
-              <div className="min-h-[140px] flex items-center">
-                <p className="text-base lg:text-lg leading-relaxed text-white/90 transition-all duration-500">
-                  {quickFacts[activeFact]}
-                </p>
-              </div>
-              <div className="mt-6 flex items-center gap-2">
-                {quickFacts.map((_, idx) => (
-                  <button
-                    key={idx}
-                    aria-label={`Not ${idx + 1}`}
-                    onClick={() => setActiveFact(idx)}
-                    className={`h-2 rounded-full transition-all duration-300 ${activeFact === idx ? "w-6 bg-emerald-400" : "w-2 bg-white/40"}`}
-                  />
-                ))}
-              </div>
-              <button className="mt-8 w-full bg-white text-[#0f1c3a] font-semibold py-3 rounded-lg hover:bg-blue-50 transition">
-                Daha fazla kisa bilgi
-              </button>
+
+                  {idx < steps.length - 1 && (
+                    <div className="flex items-center justify-center text-slate-500 shrink-0">
+                      <ArrowRight className="hidden md:inline-block" />
+                      <ArrowRight className="md:hidden rotate-90" />
+                    </div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+
+            <div className="mt-10 bg-white/90 border border-gray-100 rounded-2xl p-6 shadow-md">
+              <p className="text-sm font-semibold text-blue-700 mb-2">Adım {activeData.id}</p>
+              <h4 className="text-2xl font-bold text-slate-900 mb-3">{activeData.title}</h4>
+              <p className="text-base text-slate-700 leading-relaxed">{activeData.detail}</p>
             </div>
           </div>
         </div>
